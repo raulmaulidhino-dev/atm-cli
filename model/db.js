@@ -10,9 +10,4 @@ const db = mysql.createPool({
   database: process.env.DB_NAME,
 });
 
-db.getConnection( async (err) => {
-  console.error(err);
-  return;
-});
-
 export default db;
