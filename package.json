@@ -1,13 +1,13 @@
 {
   "name": "atm-cli",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "atm.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "type": "module",
-  "keywords": [],
-  "author": "",
+  "keywords": ["atm", "cli", "js"],
+  "author": "Raul",
   "license": "ISC",
   "description": "",
   "dependencies": {
