@@ -83,22 +83,26 @@ DB_NAME="your_databse_name"
 ## ⚡ Quick Usage
 ### 1. Register a new account
 ```bash
-node atm register -n <name> -p <6_digit_pin>
+node atm register -n <name> -p
 ```
 e.g.
 ```bash
-node atm register -n john -p 123456
+node atm register -n john -p
 ```
+You will be prompted to enter your PIN.
+
 
 
 ### 2. Login into an account
 ```bash
-node atm login -n <name> -p <6_digit_pin>
+node atm login -n <name> -p
 ```
 e.g.
 ```bash
-node atm login -n john -p 123456
+node atm login -n john -p
 ```
+You will be prompted to enter your PIN.
+
 
 
 ### 3. Check account balance
