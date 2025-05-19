@@ -6,7 +6,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "type": "module",
-  "keywords": ["atm", "cli", "js"],
+  "keywords": [
+    "atm",
+    "cli",
+    "js"
+  ],
   "author": "Raul",
   "license": "ISC",
   "description": "",
@@ -14,6 +18,7 @@
     "bcrypt": "^6.0.0",
     "commander": "^13.1.0",
     "dotenv": "^16.5.0",
+    "inquirer": "^12.6.1",
     "mysql2": "^3.14.1"
   }
 }
