@@ -72,7 +72,7 @@ You can rename the `.env.example` file into `.env` and replace the content insid
 DB_HOST="localhost"
 DB_USER="your_username"
 DB_PASSWORD="your_password"
-DB_NAME="your_databse_name"
+DB_NAME="your_database_name"
 ```
 
 ### 💡 Tips
@@ -141,6 +141,10 @@ node atm transfer 10 -t 2
 ### 🗒️ Notes
 - After logging in, account session will be saved inside `session/session.json`, forever! Until you remove it manually~
 - `check-balance`, `deposit`, `withdraw`, `transfer` only work if the current login session in `session/session.json` exists
+- To learn and explore more about the commands and flags, run this command:
+```bash
+node atm -h
+```
 
 --
 
