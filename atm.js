@@ -1,5 +1,6 @@
 import db from './model/db.js';
 import { Command } from 'commander';
+import inquirer from 'inquirer';
 import bcrypt from 'bcrypt';
 
 import { saveSession, getSession } from './session/session.js';
@@ -40,16 +41,33 @@ program
   .command('register')
   .description('Register a new account')
   .requiredOption('-n, --name <name>', 'Name (required)')
-  .requiredOption('-p, --pin <pin>', 'PIN [6-digit numeric strings] (required)')
+  .option('-p, --pin', 'PIN [6-digit numeric strings] (required)')
   .action(async (options) => {
     try {
+      let pin = null;
+      if (options.pin) {
+        await inquirer
+          .prompt([
+            {
+              type: 'password',
+              name: 'password',
+              message: 'Enter PIN:',
+              mask: '*',
+            },
+          ])
+          .then((answers) => {
+            pin = answers.password;
+          });
+      } else {
+        throw Error('PIN is required to register a new account!');
+      }
       // Check PIN format
-      if (options.pin.length !== 6 || !/^\d{6}$/.test(options.pin)) {
+      if (pin.length !== 6 || !/^\d{6}$/.test(pin)) {
         throw Error('PIN should be exactly a 6-digit numeric string.');
       }
 
       // Hash PIN
-      const hashedPIN = await bcrypt.hash(String(options.pin), 10);
+      const hashedPIN = await bcrypt.hash(String(pin), 10);
 
       // Register a new account
       await db.execute(
@@ -71,7 +89,7 @@ program
   .command('login')
   .description('Login into your account')
   .requiredOption('-n, --name <name>', 'Name (required)')
-  .requiredOption('-p, --pin <pin>', 'PIN [6-digit numeric strings] (required)')
+  .option('-p, --pin', 'PIN [6-digit numeric strings] (required)')
   .action(async (options) => {
     // Check failed login attempts
     if (failedLoginAttempts >= 3) {
@@ -82,6 +100,23 @@ program
     }
 
     try {
+      let pin = null;
+      if (options.pin) {
+        await inquirer
+          .prompt([
+            {
+              type: 'password',
+              name: 'password',
+              message: 'Enter PIN:',
+              mask: '*',
+            },
+          ])
+          .then((answers) => {
+            pin = answers.password;
+          });
+      } else {
+        throw Error('PIN is required to log in into your account!');
+      }
       // Get account data
       const [accounts] = await db.execute(
         `SELECT id, name, pin, balance FROM accounts WHERE name = ?`,
@@ -94,7 +129,7 @@ program
       }
 
       // Match PIN
-      const match = await bcrypt.compare(options.pin, accounts[0].pin);
+      const match = bcrypt.compare(pin, accounts[0].pin);
 
       if (!match) {
         failedLoginAttempts++;
@@ -420,7 +455,6 @@ program
       ]);
 
       console.info('Your money was transferred out successfully!');
-
     } catch (err) {
       console.error('Transfer Error:', err.message);
     } finally {
